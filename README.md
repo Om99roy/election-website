@@ -5,6 +5,8 @@ India has the world's largest democracy, yet a significant portion of the electo
 
 <img width="1080" height="1080" alt="image" src="https://github.com/user-attachments/assets/58917867-c443-4cee-b8aa-5f634871c982" />
 <img width="472" height="590" alt="image" src="https://github.com/user-attachments/assets/5738db69-c16a-4f5c-8567-f2ad6f5210f3" />
+<img width="472" height="590" alt="image" src="https://github.com/user-attachments/assets/fe92e887-a91d-4406-b66a-cca8896ed9a6" />
+
 
 
 
