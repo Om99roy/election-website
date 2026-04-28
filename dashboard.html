@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — ElectAI</title>
+  <link rel="stylesheet" href="css/global.css"/>
+  <link rel="stylesheet" href="css/dashboard.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">⚡</div>
+        <span>Elect<span class="gradient-text">AI</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="election-guide.html" class="nav-link">Election Guide</a></li>
+        <li><a href="chatbot.html" class="nav-link">AI Chat</a></li>
+        <li><a href="voice-agent.html" class="nav-link">Voice</a></li>
+        <li><a href="legal-rights.html" class="nav-link">Legal Rights</a></li>
+        <li><a href="surveillance.html" class="nav-link">Surveillance</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle">🌙</button>
+        <div class="user-avatar-btn" id="user-avatar-wrap" onclick="toggleUserMenu()">
+          <div id="nav-avatar" class="nav-user-avatar">👤</div>
+          <div class="user-menu hidden" id="user-menu">
+            <a href="face-verify.html">🔄 Re-verify Face</a>
+            <button onclick="logout()">🚪 Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-main dashboard-page">
+    <!-- Welcome hero -->
+    <section class="dash-hero">
+      <div class="container">
+        <div class="dash-hero-content">
+          <div>
+            <p class="dash-greeting" id="dash-greeting">Good morning!</p>
+            <h1 class="dash-name">Hello, <span class="gradient-text" id="dash-username">Voter</span> 👋</h1>
+            <p class="dash-sub">Your election intelligence hub. Stay informed, stay empowered.</p>
+          </div>
+          <div class="dash-hero-right">
+            <div class="dash-face-status glass-card" id="face-status-card">
+              <div id="dash-face-img" class="dash-face-circle">👤</div>
+              <div>
+                <p class="face-status-label" id="face-label">Face Verification</p>
+                <p class="face-status-val" id="face-val">Not verified</p>
+              </div>
+              <a href="face-verify.html" class="btn btn-primary" style="padding:8px 16px;font-size:0.8rem" id="face-action-btn">Verify Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <!-- Live alert banner -->
+      <div class="live-alert-banner glass-card" id="live-alert">
+        <div class="live-alert-dot"></div>
+        <div class="live-alert-text">
+          <strong>⚡ Live:</strong> West Bengal Phase 3 polling ongoing · ECI hotline: <strong>1950</strong>
+        </div>
+        <button class="btn btn-primary" style="padding:6px 14px;font-size:0.78rem;white-space:nowrap" onclick="window.location.href='chatbot.html?q=West Bengal election status'">Ask ElectAI</button>
+      </div>
+
+      <!-- Main feature cards -->
+      <div class="dash-grid">
+        <a href="chatbot.html" class="dash-card dash-card-primary glass-card">
+          <div class="dash-card-icon" style="background:var(--grad-primary)">💬</div>
+          <div class="dash-card-body">
+            <h3>Chat with ElectAI</h3>
+            <p>Ask anything about Indian elections — get instant AI answers</p>
+          </div>
+          <div class="dash-card-arrow">→</div>
+        </a>
+
+        <a href="voice-agent.html" class="dash-card glass-card">
+          <div class="dash-card-icon" style="background:linear-gradient(135deg,#ec4899,#f97316)">🎙️</div>
+          <div class="dash-card-body">
+            <h3>Talk with ElectAI</h3>
+            <p>Speak your question — ElectAI listens and responds</p>
+          </div>
+          <div class="dash-card-arrow">→</div>
+        </a>
+
+        <a href="election-guide.html" class="dash-card glass-card">
+          <div class="dash-card-icon" style="background:linear-gradient(135deg,#3b82f6,#6366f1)">🗺️</div>
+          <div class="dash-card-body">
+            <h3>Election Guide</h3>
+            <p>Interactive 9-phase Indian election process timeline</p>
+          </div>
+          <div class="dash-card-arrow">→</div>
+        </a>
+
+        <a href="legal-rights.html" class="dash-card glass-card">
+          <div class="dash-card-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a)">⚖️</div>
+          <div class="dash-card-body">
+            <h3>Legal Rights</h3>
+            <p>IPC sections for proxy voting, booth capturing & violations</p>
+          </div>
+          <div class="dash-card-arrow">→</div>
+        </a>
+
+        <a href="surveillance.html" class="dash-card glass-card">
+          <div class="dash-card-icon" style="background:linear-gradient(135deg,#ef4444,#f97316)">📹</div>
+          <div class="dash-card-body">
+            <h3>CCTV AI Surveillance</h3>
+            <p>Booth monitoring with real-time anomaly alerts + GPS</p>
+          </div>
+          <div class="dash-card-arrow">→</div>
+        </a>
+
+        <a href="face-verify.html" class="dash-card glass-card">
+          <div class="dash-card-icon" style="background:linear-gradient(135deg,#0ea5e9,#3b82f6)">👤</div>
+          <div class="dash-card-body">
+            <h3>Face Verification</h3>
+            <p>Re-verify or update your face capture for security</p>
+          </div>
+          <div class="dash-card-arrow">→</div>
+        </a>
+      </div>
+
+      <!-- Bottom row: Stats + Quick Asks -->
+      <div class="dash-bottom">
+        <div class="dash-stats glass-card">
+          <h3>📊 Election Stats (India 2024–25)</h3>
+          <div class="stats-list">
+            <div class="stat-row"><span>Total Voters</span><span class="stat-val gradient-text">96.8 Crore</span></div>
+            <div class="stat-row"><span>Polling Booths</span><span class="stat-val gradient-text">10.5 Lakh+</span></div>
+            <div class="stat-row"><span>Parliament Seats</span><span class="stat-val gradient-text">543</span></div>
+            <div class="stat-row"><span>State Assembly Seats</span><span class="stat-val gradient-text">4,033</span></div>
+            <div class="stat-row"><span>Election Phases (GE 2024)</span><span class="stat-val gradient-text">7</span></div>
+            <div class="stat-row"><span>Voter Turnout (GE 2024)</span><span class="stat-val gradient-text">65.79%</span></div>
+          </div>
+        </div>
+
+        <div class="dash-quick-asks glass-card">
+          <h3>⚡ Quick Ask ElectAI</h3>
+          <div class="quick-ask-list">
+            <button class="quick-ask-item" onclick="quickAsk('What is the current status of West Bengal elections 2025?')">🔴 West Bengal Elections Status</button>
+            <button class="quick-ask-item" onclick="quickAsk('What are current elections happening in Tamil Nadu?')">🟠 Tamil Nadu Updates</button>
+            <button class="quick-ask-item" onclick="quickAsk('What is the Model Code of Conduct and when does it apply?')">📋 Model Code of Conduct</button>
+            <button class="quick-ask-item" onclick="quickAsk('How do I register to vote in India?')">📝 Voter Registration</button>
+            <button class="quick-ask-item" onclick="quickAsk('I was forcefully prevented from voting. What should I do?')">🚨 Report a Violation</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Chat History -->
+      <div class="dash-history glass-card">
+        <div class="flex-between" style="margin-bottom:16px">
+          <h3>💬 Recent Conversations</h3>
+          <a href="chatbot.html" class="btn btn-ghost" style="font-size:0.8rem;padding:6px 12px">View All →</a>
+        </div>
+        <div id="dash-history-list"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/config.js?v=3"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Personalize dashboard
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getCurrentUser();
+      if (user) {
+        document.getElementById('dash-username').textContent = user.name?.split(' ')[0] || 'Voter';
+        if (user.photo) {
+          document.getElementById('nav-avatar').innerHTML = `<img src="${user.photo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover"/>`;
+          document.getElementById('dash-face-img').innerHTML = `<img src="${user.photo}" style="width:56px;height:56px;border-radius:50%;object-fit:cover"/>`;
+        }
+        if (user.faceVerified) {
+          document.getElementById('face-label').textContent = '✅ Face Verified';
+          document.getElementById('face-val').textContent = new Date(user.verifiedAt).toLocaleDateString('en-IN');
+          document.getElementById('face-action-btn').textContent = '✓ Verified';
+          document.getElementById('face-action-btn').className = 'btn btn-secondary';
+          document.getElementById('face-action-btn').style.cssText = 'padding:8px 16px;font-size:0.8rem;opacity:0.7';
+        }
+      }
+
+      // Greeting
+      const h = new Date().getHours();
+      const g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+      document.getElementById('dash-greeting').textContent = g + ',';
+
+      // Load chat history
+      const chats = JSON.parse(localStorage.getItem('electai_chats') || '[]');
+      const list  = document.getElementById('dash-history-list');
+      if (chats.length === 0) {
+        list.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">No conversations yet. <a href="chatbot.html" style="color:var(--accent-purple)">Start chatting →</a></p>';
+      } else {
+        list.innerHTML = chats.slice(0,5).map(c => `
+          <a href="chatbot.html" class="history-row">
+            <span class="history-icon">💬</span>
+            <div class="history-body">
+              <p class="history-title">${c.title || 'Chat'}</p>
+              <p class="history-date">${new Date(c.createdAt).toLocaleDateString('en-IN')}</p>
+            </div>
+            <span style="color:var(--text-muted)">→</span>
+          </a>`).join('');
+      }
+    });
+
+    function quickAsk(q) {
+      window.location.href = 'chatbot.html';
+      sessionStorage.setItem('electai_quick_ask', q);
+    }
+
+    function toggleUserMenu() {
+      document.getElementById('user-menu').classList.toggle('hidden');
+    }
+    document.addEventListener('click', e => {
+      if (!e.target.closest('#user-avatar-wrap')) document.getElementById('user-menu').classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
+

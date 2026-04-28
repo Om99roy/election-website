@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ElectAI — Understand Indian Elections</title>
+  <meta name="description" content="ElectAI helps you understand Indian elections, the voting process, legal rights, and get live polling updates through AI-powered chat and voice."/>
+  <link rel="stylesheet" href="css/global.css"/>
+  <link rel="stylesheet" href="css/landing.css"/>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">⚡</div>
+        <span>Elect<span class="gradient-text">AI</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="election-guide.html" class="nav-link">Election Guide</a></li>
+        <li><a href="chatbot.html" class="nav-link">AI Chat</a></li>
+        <li><a href="voice-agent.html" class="nav-link">Voice Agent</a></li>
+        <li><a href="legal-rights.html" class="nav-link">Legal Rights</a></li>
+        <li><a href="surveillance.html" class="nav-link">Surveillance</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" title="Switch theme">🌙</button>
+        <a href="login.html" class="btn btn-secondary" style="padding:8px 18px;font-size:0.85rem;">Login</a>
+        <a href="login.html?tab=signup" class="btn btn-primary" style="padding:8px 18px;font-size:0.85rem;">Sign Up</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-main">
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-bg-orb orb-1"></div>
+      <div class="hero-bg-orb orb-2"></div>
+      <div class="hero-bg-orb orb-3"></div>
+
+      <div class="container hero-content">
+        <div class="badge animate-fade-up">
+          <span class="status-dot"></span>
+          Live Updates · Indian Elections 2025
+        </div>
+
+        <h1 class="hero-title animate-fade-up" style="animation-delay:0.1s">
+          Understand <span class="gradient-text">Indian Elections</span><br/>
+          Like Never Before
+        </h1>
+
+        <p class="hero-subtitle animate-fade-up" style="animation-delay:0.2s">
+          <span id="hero-typewriter" data-typewriter="Ask ElectAI anything about elections|Learn the voting process step by step|Know your legal rights as a voter|Get live polling updates across India|Talk to ElectAI — it listens, speaks back" data-tw-speed="55"></span>
+        </p>
+
+        <div class="hero-actions animate-fade-up" style="animation-delay:0.3s">
+          <a href="chatbot.html" class="btn btn-primary hero-btn-primary">
+            <span>💬</span> Chat with ElectAI
+          </a>
+          <a href="voice-agent.html" class="btn btn-secondary hero-btn-secondary">
+            <span>🎙️</span> Voice Agent
+          </a>
+        </div>
+
+        <div class="hero-stats animate-fade-up" style="animation-delay:0.4s">
+          <div class="stat"><span class="stat-num">543</span><span class="stat-label">Parliament Seats</span></div>
+          <div class="stat-div"></div>
+          <div class="stat"><span class="stat-num">96.8 Cr</span><span class="stat-label">Registered Voters</span></div>
+          <div class="stat-div"></div>
+          <div class="stat"><span class="stat-num">28+</span><span class="stat-label">States & UTs</span></div>
+          <div class="stat-div"></div>
+          <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">AI Assistance</span></div>
+        </div>
+      </div>
+
+      <!-- Animated orb visual -->
+      <div class="hero-orb-container animate-fade-up" style="animation-delay:0.2s">
+        <canvas id="hero-orb-canvas" width="480" height="480"></canvas>
+      </div>
+    </section>
+
+    <!-- LIVE ELECTIONS BANNER -->
+    <section class="live-banner">
+      <div class="container">
+        <div class="live-badge"><span class="status-dot"></span> LIVE NOW</div>
+        <div class="live-ticker" id="live-ticker">
+          <span>🗳️ West Bengal State Elections — Phase 3 Polling Ongoing</span>
+          <span>📊 Tamil Nadu Local Body Elections — Results Awaited</span>
+          <span>⚠️ ECI Alert: Model Code of Conduct Active in 6 States</span>
+          <span>🏛️ Bihar By-Elections — Voting on May 5, 2025</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features section" id="features">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge">Everything You Need</div>
+          <h2>Your Complete <span class="gradient-text">Election Companion</span></h2>
+          <p>From understanding the process to real-time alerts — ElectAI has it all.</p>
+        </div>
+        <div class="features-grid">
+
+          <a href="chatbot.html" class="feature-card glass-card">
+            <div class="feature-icon" style="background:linear-gradient(135deg,#8b5cf6,#ec4899)">💬</div>
+            <h3>ElectAI Chatbot</h3>
+            <p>Ask anything about elections, voting rights, candidates, or current polling — get instant AI-powered answers.</p>
+            <div class="feature-tag">Powered by Gemini AI</div>
+          </a>
+
+          <a href="voice-agent.html" class="feature-card glass-card">
+            <div class="feature-icon" style="background:linear-gradient(135deg,#ec4899,#f97316)">🎙️</div>
+            <h3>Voice Calling Agent</h3>
+            <p>Don't want to read? Just talk. ElectAI listens to your question and speaks the answer back to you.</p>
+            <div class="feature-tag">Web Speech API</div>
+          </a>
+
+          <a href="election-guide.html" class="feature-card glass-card">
+            <div class="feature-icon" style="background:linear-gradient(135deg,#3b82f6,#6366f1)">🗺️</div>
+            <h3>Election Process Guide</h3>
+            <p>Interactive 9-phase timeline covering every step of Indian elections from announcement to results.</p>
+            <div class="feature-tag">Interactive Timeline</div>
+          </a>
+
+          <a href="legal-rights.html" class="feature-card glass-card">
+            <div class="feature-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a)">⚖️</div>
+            <h3>Legal Rights (IPC)</h3>
+            <p>Know your rights if you face proxy voting or booth capturing. IPC sections, penalties, and how to report.</p>
+            <div class="feature-tag">IPC Sections 171B–F</div>
+          </a>
+
+          <a href="surveillance.html" class="feature-card glass-card">
+            <div class="feature-icon" style="background:linear-gradient(135deg,#ef4444,#f97316)">📹</div>
+            <h3>CCTV Surveillance AI</h3>
+            <p>Edge AI model monitors booths for violence, weapons, or crowds — triggers instant police alerts with GPS location.</p>
+            <div class="feature-tag">TF.js + Live Map</div>
+          </a>
+
+          <a href="face-verify.html" class="feature-card glass-card">
+            <div class="feature-icon" style="background:linear-gradient(135deg,#0ea5e9,#3b82f6)">👤</div>
+            <h3>Face Verification</h3>
+            <p>Secure face-capture login powered by face-api.js DNN model. Your identity, verified before every session.</p>
+            <div class="feature-tag">face-api.js DNN</div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works section">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge">Simple Process</div>
+          <h2>Get Started in <span class="gradient-text">3 Steps</span></h2>
+        </div>
+        <div class="steps-row">
+          <div class="step">
+            <div class="step-number">01</div>
+            <div class="step-icon">📝</div>
+            <h3>Create Account</h3>
+            <p>Sign up with your details and get verified in seconds.</p>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">02</div>
+            <div class="step-icon">👤</div>
+            <h3>Face Verification</h3>
+            <p>Quick face scan confirms your identity securely.</p>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">03</div>
+            <div class="step-icon">⚡</div>
+            <h3>Start Learning</h3>
+            <p>Chat, call, read guides — democracy at your fingertips.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section section">
+      <div class="container">
+        <div class="cta-card glass-card">
+          <div class="cta-orb"></div>
+          <h2>Ready to become an <span class="gradient-text">informed voter</span>?</h2>
+          <p>Join thousands of citizens using ElectAI to understand their democratic rights.</p>
+          <div class="cta-actions">
+            <a href="login.html?tab=signup" class="btn btn-primary">Get Started Free →</a>
+            <a href="chatbot.html" class="btn btn-ghost">Try Chat First</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <div class="nav-logo" style="font-size:1.4rem">
+              <div class="nav-logo-icon">⚡</div>
+              Elect<span class="gradient-text">AI</span>
+            </div>
+            <p>Empowering Indian voters with knowledge, AI, and transparency.</p>
+          </div>
+          <div class="footer-links">
+            <div class="footer-col">
+              <h4>Platform</h4>
+              <a href="chatbot.html">AI Chatbot</a>
+              <a href="voice-agent.html">Voice Agent</a>
+              <a href="election-guide.html">Election Guide</a>
+            </div>
+            <div class="footer-col">
+              <h4>Resources</h4>
+              <a href="legal-rights.html">Legal Rights</a>
+              <a href="surveillance.html">Surveillance AI</a>
+              <a href="dashboard.html">Dashboard</a>
+            </div>
+            <div class="footer-col">
+              <h4>Account</h4>
+              <a href="login.html">Login</a>
+              <a href="login.html?tab=signup">Sign Up</a>
+              <a href="face-verify.html">Face Verify</a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 ElectAI. Built for the people of India. 🇮🇳</p>
+          <p>Powered by Gemini AI · ECI Data · face-api.js</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="js/config.js?v=3"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/typewriter.js"></script>
+  <script>
+    // Hero orb canvas animation
+    const canvas = document.getElementById('hero-orb-canvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    const particles = [];
+    const N = 320;
+
+    if (ctx) {
+      for (let i = 0; i < N; i++) {
+        const theta = Math.acos(1 - 2 * (i / N));
+        const phi   = Math.PI * (1 + Math.sqrt(5)) * i;
+        particles.push({
+          ox: Math.sin(theta) * Math.cos(phi),
+          oy: Math.sin(theta) * Math.sin(phi),
+          oz: Math.cos(theta),
+          x: 0, y: 0, r: 1.5 + Math.random() * 1.5,
+          alpha: 0.4 + Math.random() * 0.6
+        });
+      }
+
+      let t = 0;
+      function drawOrb() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const cx = canvas.width / 2, cy = canvas.height / 2;
+        const R = 160;
+        const wave = 0.18;
+        const freq = 2.8;
+        t += 0.012;
+
+        particles.forEach(p => {
+          const ry = p.ox * Math.cos(t * 0.4) - p.oz * Math.sin(t * 0.4);
+          const rz = p.ox * Math.sin(t * 0.4) + p.oz * Math.cos(t * 0.4);
+          const rx = p.oy;
+          const noise = 1 + wave * Math.sin(freq * rz + t) * Math.cos(freq * rx + t * 0.7);
+          const scale = R * noise;
+          const zDepth = (rz + 1) / 2;
+          p.x = cx + rx * scale;
+          p.y = cy + ry * scale;
+
+          const hue = 260 + zDepth * 80;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * zDepth, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${hue}, 80%, 70%, ${p.alpha * zDepth})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(drawOrb);
+      }
+      drawOrb();
+    }
+
+    // Live ticker animation
+    const ticker = document.getElementById('live-ticker');
+    if (ticker) {
+      const items = ticker.querySelectorAll('span');
+      let current = 0;
+      function rotateTicker() {
+        items[current].style.opacity = '0';
+        items[current].style.transform = 'translateY(-20px)';
+        current = (current + 1) % items.length;
+        items[current].style.opacity = '1';
+        items[current].style.transform = 'translateY(0)';
+      }
+      items.forEach((item, i) => {
+        item.style.display = i === 0 ? 'block' : 'none';
+        item.style.transition = 'opacity 0.5s, transform 0.5s';
+      });
+      // Show all using visibility trick
+      items.forEach(item => { item.style.display = 'block'; item.style.position = 'absolute'; });
+      items[0].style.opacity = '1'; items[0].style.transform = 'translateY(0)';
+      for (let i = 1; i < items.length; i++) { items[i].style.opacity = '0'; }
+      setInterval(rotateTicker, 3500);
+    }
+
+    // Intersection observer for animations
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.feature-card, .step').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Legal Rights — ElectAI</title>
+  <meta name="description" content="Know your legal rights under IPC if you were proxied, denied vote, or faced booth capturing in Indian elections."/>
+  <link rel="stylesheet" href="css/global.css"/>
+  <style>
+    .legal-page { padding-top: var(--navbar-height); }
+    .legal-intro { background:linear-gradient(135deg,rgba(34,197,94,0.08),transparent); border-bottom:1px solid var(--border); padding:60px 0; }
+    .ipc-section-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; margin-top:40px; }
+    .ipc-card {
+      background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg);
+      overflow:hidden; transition:all 0.2s; cursor:pointer;
+    }
+    .ipc-card:hover { border-color:var(--border-accent); box-shadow:var(--shadow-glow); transform:translateY(-2px); }
+    .ipc-card-header {
+      display:flex; align-items:center; gap:14px; padding:18px 20px;
+      background:linear-gradient(135deg,rgba(34,197,94,0.06),transparent);
+    }
+    .ipc-section-num {
+      font-family:'Outfit',sans-serif; font-size:1.1rem; font-weight:800;
+      background:var(--grad-green,linear-gradient(135deg,#22c55e,#16a34a));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      white-space:nowrap;
+    }
+    .ipc-card-title { font-weight:700; font-size:0.9rem; }
+    .ipc-card-act { font-size:0.75rem; color:var(--text-muted); margin-top:2px; }
+    .ipc-card-body { padding:0 20px; max-height:0; overflow:hidden; transition:max-height 0.4s ease, padding 0.3s; }
+    .ipc-card.open .ipc-card-body { max-height:600px; padding:0 20px 20px; }
+    .ipc-card-arrow { margin-left:auto; color:var(--text-muted); transition:transform 0.3s; font-size:1.2rem; }
+    .ipc-card.open .ipc-card-arrow { transform:rotate(180deg); }
+    .ipc-detail { font-size:0.85rem; color:var(--text-secondary); line-height:1.7; border-top:1px solid var(--border); padding-top:16px; }
+    .ipc-detail strong { color:var(--text-primary); }
+    .ipc-detail ul { padding-left:18px; margin:8px 0; }
+    .ipc-detail li { margin-bottom:5px; }
+    .penalty-chip { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:var(--radius-full); font-size:0.75rem; font-weight:600; margin-top:12px; }
+    .penalty-chip.red { background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); color:var(--accent-red); }
+    .penalty-chip.orange { background:rgba(249,115,22,0.12); border:1px solid rgba(249,115,22,0.3); color:var(--accent-orange); }
+
+    /* Steps to report */
+    .report-steps { background:var(--bg-secondary); border-top:1px solid var(--border); padding:60px 0; }
+    .steps-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; margin-top:32px; }
+    .report-step { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; }
+    .report-step-icon { font-size:2rem; margin-bottom:12px; }
+    .report-step h3 { font-weight:700; font-size:0.9rem; margin-bottom:8px; }
+    .report-step p { font-size:0.82rem; color:var(--text-secondary); line-height:1.5; }
+    .emergency-contact { background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.2); border-radius:var(--radius-lg); padding:24px; margin-top:32px; }
+    .ec-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:16px; }
+    .ec-item { display:flex; align-items:center; gap:10px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px 16px; }
+    .ec-num { font-family:'Outfit',sans-serif; font-size:1.3rem; font-weight:900; background:var(--grad-primary); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .ec-label { font-size:0.78rem; color:var(--text-muted); }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo"><div class="nav-logo-icon">⚡</div><span>Elect<span class="gradient-text">AI</span></span></a>
+      <ul class="nav-links">
+        <li><a href="election-guide.html" class="nav-link">Election Guide</a></li>
+        <li><a href="chatbot.html" class="nav-link">AI Chat</a></li>
+        <li><a href="legal-rights.html" class="nav-link active">Legal Rights</a></li>
+        <li><a href="surveillance.html" class="nav-link">Surveillance</a></li>
+      </ul>
+      <div class="nav-actions"><button class="theme-toggle">🌙</button><a href="dashboard.html" class="btn btn-secondary" style="padding:8px 16px;font-size:0.85rem">Dashboard</a></div>
+    </div>
+  </nav>
+
+  <main class="page-main legal-page">
+    <div class="legal-intro">
+      <div class="container">
+        <div class="page-header" style="padding-top:0;text-align:left">
+          <div class="badge">⚖️ Indian Penal Code & RPA 1951</div>
+          <h1>Your <span class="gradient-text">Legal Rights</span> as a Voter</h1>
+          <p>If you were proxied, denied your vote, or faced booth capturing — these are the laws that protect you. Know them, use them.</p>
+        </div>
+        <div style="margin-top:24px;padding:16px 20px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:var(--radius-md);font-size:0.875rem;color:var(--text-secondary)">
+          ⚠️ <strong style="color:var(--accent-red)">What is "Proxy Voting" / Booth Capturing?</strong> — When someone casts your vote without your consent, prevents you from voting by force or intimidation, or impersonates you at a polling booth. This is a serious criminal offence under Indian law.
+        </div>
+      </div>
+    </div>
+
+    <section style="padding:60px 0">
+      <div class="container">
+        <h2 style="font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:8px">📚 Applicable Laws & IPC Sections</h2>
+        <p style="color:var(--text-secondary);font-size:0.875rem;margin-bottom:32px">Click any section to expand the full legal details, penalties, and actions you can take.</p>
+
+        <!-- Search -->
+        <div style="max-width:400px;margin-bottom:28px">
+          <div class="input-wrap" style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-md)">
+            <span class="input-icon">🔍</span>
+            <input type="text" placeholder="Search sections..." oninput="filterSections(this.value)" style="flex:1;padding:12px 8px 12px 0;background:transparent;color:var(--text-primary);font-size:0.9rem"/>
+          </div>
+        </div>
+
+        <div class="ipc-section-grid" id="ipc-grid"></div>
+      </div>
+    </section>
+
+    <section class="report-steps">
+      <div class="container">
+        <h2 style="font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:4px">🚨 What To Do If You Were Proxied</h2>
+        <p style="color:var(--text-secondary);font-size:0.875rem">Follow these steps immediately to protect your rights.</p>
+        <div class="steps-grid">
+          <div class="report-step"><div class="report-step-icon">📸</div><h3>1. Collect Evidence</h3><p>Take photos, note witness names, record video if possible. Note the booth number and time.</p></div>
+          <div class="report-step"><div class="report-step-icon">🏛️</div><h3>2. Report to Presiding Officer</h3><p>Immediately report to the Presiding Officer at the booth. Demand a complaint be recorded.</p></div>
+          <div class="report-step"><div class="report-step-icon">📞</div><h3>3. Call National Voter Helpline</h3><p>Dial <strong>1950</strong> (24x7 during elections). Register your complaint with your voter ID number.</p></div>
+          <div class="report-step"><div class="report-step-icon">👮</div><h3>4. File Police FIR</h3><p>File an FIR under IPC Section 171D (personation) and 171C (undue influence) at the nearest police station.</p></div>
+          <div class="report-step"><div class="report-step-icon">📋</div><h3>5. File ECI Complaint</h3><p>File a complaint at eci.gov.in or through the cVIGIL app with location, photo, and description of violation.</p></div>
+          <div class="report-step"><div class="report-step-icon">⚖️</div><h3>6. Seek Legal Aid</h3><p>Contact your State Legal Services Authority (SLSA) for free legal representation if needed.</p></div>
+        </div>
+
+        <div class="emergency-contact">
+          <h3 style="font-weight:700;margin-bottom:4px">📟 Emergency Contacts</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">Call immediately during any election emergency</p>
+          <div class="ec-row">
+            <div class="ec-item"><span style="font-size:1.5rem">👮</span><div><div class="ec-num">100</div><div class="ec-label">Police Emergency</div></div></div>
+            <div class="ec-item"><span style="font-size:1.5rem">🗳️</span><div><div class="ec-num">1950</div><div class="ec-label">National Voter Helpline</div></div></div>
+            <div class="ec-item"><span style="font-size:1.5rem">👩</span><div><div class="ec-num">1091</div><div class="ec-label">Women Helpline</div></div></div>
+            <div class="ec-item"><span style="font-size:1.5rem">📱</span><div><div class="ec-num">cVIGIL</div><div class="ec-label">ECI Mobile App</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.js?v=3"></script>
+  <script src="js/theme.js"></script>
+  <script>
+    const ipcSections = [
+      { num:'IPC § 171B', title:'Bribery at Elections', act:'Indian Penal Code 1860',
+        detail:`<strong>What it covers:</strong> Offering or accepting money, gifts, or any gratification to induce a person to vote or refrain from voting.
+        <ul>
+          <li>Candidate giving cash/gifts = guilty of bribery</li>
+          <li>Voter accepting cash in exchange for vote = also guilty</li>
+          <li>Includes distribution of liquor, free travel, or free goods</li>
+          <li>Even a promise of future benefit counts</li>
+        </ul>
+        <strong>Penalty:</strong> Up to 1 year imprisonment, or fine, or both.`, penalty:'1 Year + Fine', severity:'orange' },
+
+      { num:'IPC § 171C', title:'Undue Influence at Elections', act:'Indian Penal Code 1860',
+        detail:`<strong>What it covers:</strong> Using force, threats, or any coercive means to interfere with the free exercise of electoral rights.
+        <ul>
+          <li>Threatening a voter with injury, loss of job, or social boycott</li>
+          <li>Inducing fear of divine displeasure (e.g., "God will punish you if you vote X")</li>
+          <li>Preventing voters from going to the polling booth by blocking roads</li>
+          <li>Intimidating candidates to withdraw from the election</li>
+        </ul>
+        <strong>Penalty:</strong> Up to 1 year imprisonment, or fine, or both.`, penalty:'1 Year + Fine', severity:'orange' },
+
+      { num:'IPC § 171D', title:'Personation at Elections (PROXY VOTING)', act:'Indian Penal Code 1860',
+        detail:`<strong>What it covers:</strong> Voting or attempting to vote in the name of another person (dead or alive), or voting more than once in the same election. This is the core provision against PROXY VOTING.
+        <ul>
+          <li>Someone votes using your voter ID without your knowledge</li>
+          <li>A person votes more than once in the same polling booth or constituency</li>
+          <li>Impersonating a deceased voter whose name is still on the rolls</li>
+          <li>Voting under a false name</li>
+        </ul>
+        <strong>Penalty:</strong> Up to 1 year imprisonment, or fine, or both. (Non-bailable offence)`, penalty:'1 Year + Fine (Non-bailable)', severity:'red' },
+
+      { num:'IPC § 171E', title:'Punishment for Bribery', act:'Indian Penal Code 1860',
+        detail:`<strong>What it covers:</strong> Prescribes the specific punishment for bribery under Section 171B.
+        <ul>
+          <li>Conviction results in imprisonment of up to 1 year</li>
+          <li>Fine may also be imposed</li>
+          <li>Both giver and receiver are punishable</li>
+          <li>Public servants convicted may face additional service penalties</li>
+        </ul>
+        <strong>Penalty:</strong> Imprisonment up to 1 year, or fine, or both.`, penalty:'1 Year + Fine', severity:'orange' },
+
+      { num:'IPC § 171F', title:'Punishment for Undue Influence / Personation', act:'Indian Penal Code 1860',
+        detail:`<strong>What it covers:</strong> Prescribes punishment for the offences of undue influence (171C) and personation (171D) at elections.
+        <ul>
+          <li>Imprisonment which may extend to 1 year</li>
+          <li>Fine may be imposed in addition</li>
+          <li>Both offences treated equally seriously by law</li>
+          <li>Conviction also leads to disqualification from contesting elections</li>
+        </ul>
+        <strong>Penalty:</strong> Imprisonment up to 1 year, or fine, or both.`, penalty:'1 Year + Fine', severity:'red' },
+
+      { num:'RPA § 58A', title:'Adjournment of Poll / Booth Capturing', act:'Representation of People Act 1951',
+        detail:`<strong>What it covers:</strong> Empowers the Returning Officer to adjourn a poll at any polling station if booth capturing occurs.
+        <ul>
+          <li>Booth capturing = seizure of a polling booth by force or intimidation</li>
+          <li>Returning Officer may adjourn poll for up to 30 days</li>
+          <li>Re-poll must be ordered and held at the captured booth</li>
+          <li>Result of the constituency cannot be declared until re-poll is completed</li>
+          <li>ECI can also declare the entire election void in extreme cases</li>
+        </ul>
+        <strong>Penalty:</strong> Action under Section 135A; imprisonment up to 3 years.`, penalty:'3 Years', severity:'red' },
+
+      { num:'RPA § 135', title:'Removal of Ballot Papers from Polling Station', act:'Representation of People Act 1951',
+        detail:`<strong>What it covers:</strong> Makes it an offence to fraudulently take, attempt to take, or aid in taking any ballot paper out of a polling station.
+        <ul>
+          <li>Stealing or destroying ballot papers</li>
+          <li>Tampering with EVM memory or ballot unit</li>
+          <li>Assisting in the removal of ballot material</li>
+          <li>Includes postal ballot fraud</li>
+        </ul>
+        <strong>Penalty:</strong> Rigorous imprisonment up to 1 year, or fine up to ₹500, or both.`, penalty:'1 Year + Fine', severity:'orange' },
+
+      { num:'RPA § 135A', title:'Booth Capturing — Criminal Offence', act:'Representation of People Act 1951',
+        detail:`<strong>What it covers:</strong> Specifically criminalises booth capturing — the most serious electoral offence.
+        <ul>
+          <li>Seizure of a polling station by any person or group</li>
+          <li>Threatening polling officers to operate EVMs for a particular candidate</li>
+          <li>Mass impersonation of voters at a booth</li>
+          <li>Using armed gangs to drive away voters or officials</li>
+          <li>First-time offence: 1–3 years imprisonment</li>
+          <li>Subsequent offence: 3–5 years (mandatory)</li>
+        </ul>
+        <strong>Penalty:</strong> Mandatory 3–5 years rigorous imprisonment for repeat offenders. Non-bailable.`, penalty:'3-5 Years (Mandatory)', severity:'red' },
+
+      { num:'CRPC § 144', title:'Prohibitory Order in Sensitive Areas', act:'Code of Criminal Procedure 1973',
+        detail:`<strong>What it covers:</strong> District Magistrate can impose Section 144 in areas where election violence or disturbance is likely.
+        <ul>
+          <li>Prohibits assembly of 5 or more persons in the restricted area</li>
+          <li>Can ban carrying weapons, firearms, or explosives near polling booths</li>
+          <li>Vehicles can be stopped and searched</li>
+          <li>Internet shutdown can be ordered in extreme cases</li>
+          <li>Violation is a criminal offence with imprisonment up to 1 year</li>
+        </ul>
+        <strong>Use:</strong> Routinely imposed near polling booths in sensitive constituencies like parts of West Bengal, Bihar, etc.`, penalty:'1 Year', severity:'orange' }
+    ];
+
+    function renderSections(data) {
+      const grid = document.getElementById('ipc-grid');
+      grid.innerHTML = data.map((s, i) => `
+        <div class="ipc-card" id="ipc-${i}" onclick="toggleCard(${i})">
+          <div class="ipc-card-header">
+            <div>
+              <div class="ipc-section-num">${s.num}</div>
+              <div class="ipc-card-title">${s.title}</div>
+              <div class="ipc-card-act">${s.act}</div>
+            </div>
+            <span class="ipc-card-arrow">⌄</span>
+          </div>
+          <div class="ipc-card-body">
+            <div class="ipc-detail">${s.detail}
+              <div style="margin-top:12px"><span class="penalty-chip ${s.severity}">⚠️ Penalty: ${s.penalty}</span></div>
+            </div>
+          </div>
+        </div>`).join('');
+    }
+
+    function toggleCard(i) {
+      document.getElementById(`ipc-${i}`).classList.toggle('open');
+    }
+
+    function filterSections(q) {
+      const filtered = ipcSections.filter(s =>
+        s.num.toLowerCase().includes(q.toLowerCase()) ||
+        s.title.toLowerCase().includes(q.toLowerCase()) ||
+        s.detail.toLowerCase().includes(q.toLowerCase())
+      );
+      renderSections(filtered);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => renderSections(ipcSections));
+  </script>
+</body>
+</html>
+

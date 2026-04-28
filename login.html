@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login / Sign Up — ElectAI</title>
+  <meta name="description" content="Login or create your ElectAI account to access the full election education platform."/>
+  <link rel="stylesheet" href="css/global.css"/>
+  <link rel="stylesheet" href="css/auth.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">⚡</div>
+        <span>Elect<span class="gradient-text">AI</span></span>
+      </a>
+      <div class="nav-actions">
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-main auth-page">
+    <!-- Decorative orbs -->
+    <div class="auth-orb auth-orb-1"></div>
+    <div class="auth-orb auth-orb-2"></div>
+
+    <div class="auth-container">
+      <!-- Left panel -->
+      <div class="auth-left">
+        <div class="auth-left-content">
+          <div class="nav-logo" style="font-size:1.6rem;margin-bottom:32px">
+            <div class="nav-logo-icon" style="width:44px;height:44px;font-size:22px">⚡</div>
+            Elect<span class="gradient-text">AI</span>
+          </div>
+          <h1>Democracy starts with <span class="gradient-text">knowledge</span></h1>
+          <p>Join ElectAI to get AI-powered election insights, voice assistance, and know your legal rights as an Indian voter.</p>
+          <div class="auth-features">
+            <div class="auth-feature"><span>💬</span> AI chatbot for election questions</div>
+            <div class="auth-feature"><span>🎙️</span> Voice agent — ask, listen, learn</div>
+            <div class="auth-feature"><span>⚖️</span> Know your rights under IPC</div>
+            <div class="auth-feature"><span>📹</span> Real-time booth surveillance alerts</div>
+          </div>
+        </div>
+        <!-- Orb animation -->
+        <canvas id="auth-orb" width="320" height="320" class="auth-canvas"></canvas>
+      </div>
+
+      <!-- Right panel — Forms -->
+      <div class="auth-right glass-card">
+        <!-- Tabs -->
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
+          <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <form id="form-login" class="auth-form" onsubmit="handleLogin(event)">
+          <h2>Welcome back</h2>
+          <p class="form-sub">Login to your ElectAI account</p>
+
+          <div class="form-group">
+            <label>Email Address</label>
+            <div class="input-wrap">
+              <span class="input-icon">📧</span>
+              <input type="email" id="login-email" placeholder="you@example.com" required/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="login-pass" placeholder="Enter password" required/>
+              <button type="button" class="toggle-pass" onclick="togglePass('login-pass', this)">👁️</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="checkbox-label">
+              <input type="checkbox" id="remember-me"/> Remember me
+            </label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary form-submit" id="login-btn">
+            <span id="login-btn-text">Login →</span>
+            <span id="login-spinner" class="spinner hidden"></span>
+          </button>
+
+          <p class="form-switch">Don't have an account? <a href="#" onclick="switchTab('signup')">Sign Up</a></p>
+        </form>
+
+        <!-- SIGNUP FORM -->
+        <form id="form-signup" class="auth-form hidden" onsubmit="handleSignup(event)">
+          <h2>Create account</h2>
+          <p class="form-sub">Join ElectAI — it's free</p>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Full Name</label>
+              <div class="input-wrap">
+                <span class="input-icon">👤</span>
+                <input type="text" id="su-name" placeholder="Your full name" required/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Mobile Number</label>
+              <div class="input-wrap">
+                <span class="input-icon">📱</span>
+                <input type="tel" id="su-phone" placeholder="+91 XXXXX XXXXX"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Email Address</label>
+            <div class="input-wrap">
+              <span class="input-icon">📧</span>
+              <input type="email" id="su-email" placeholder="you@example.com" required/>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>State</label>
+              <div class="input-wrap">
+                <span class="input-icon">🗺️</span>
+                <select id="su-state" required>
+                  <option value="">Select state</option>
+                  <option>West Bengal</option><option>Tamil Nadu</option><option>Maharashtra</option>
+                  <option>Uttar Pradesh</option><option>Bihar</option><option>Gujarat</option>
+                  <option>Karnataka</option><option>Kerala</option><option>Delhi</option>
+                  <option>Rajasthan</option><option>Madhya Pradesh</option><option>Andhra Pradesh</option>
+                  <option>Telangana</option><option>Odisha</option><option>Assam</option>
+                  <option>Punjab</option><option>Haryana</option><option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Voter ID (Optional)</label>
+              <div class="input-wrap">
+                <span class="input-icon">🪪</span>
+                <input type="text" id="su-voter-id" placeholder="ABC1234567"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Password</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="su-pass" placeholder="Min 8 characters" required minlength="8"/>
+                <button type="button" class="toggle-pass" onclick="togglePass('su-pass', this)">👁️</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Confirm Password</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="su-pass2" placeholder="Repeat password" required/>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Profile Photo (Optional)</label>
+            <div class="photo-upload" id="photo-upload-zone" onclick="document.getElementById('su-photo').click()">
+              <input type="file" id="su-photo" accept="image/*" class="hidden" onchange="previewPhoto(this)"/>
+              <div id="photo-preview-wrap">
+                <span class="upload-icon">📸</span>
+                <span class="upload-text">Click to upload photo</span>
+              </div>
+            </div>
+          </div>
+
+          <label class="checkbox-label">
+            <input type="checkbox" id="su-terms" required/>
+            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+          </label>
+
+          <button type="submit" class="btn btn-primary form-submit" id="signup-btn">
+            <span id="signup-btn-text">Create Account →</span>
+            <span id="signup-spinner" class="spinner hidden"></span>
+          </button>
+
+          <p class="form-switch">Already have an account? <a href="#" onclick="switchTab('login')">Login</a></p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/config.js?v=3"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Check if signup tab requested via URL
+    if (new URLSearchParams(location.search).get('tab') === 'signup') switchTab('signup');
+
+    // Mini orb canvas for auth page
+    const c = document.getElementById('auth-orb');
+    const cx2 = c ? c.getContext('2d') : null;
+    if (cx2) {
+      const pts = [];
+      for (let i = 0; i < 180; i++) {
+        const theta = Math.acos(1 - 2*(i/180));
+        const phi   = Math.PI*(1+Math.sqrt(5))*i;
+        pts.push({ ox:Math.sin(theta)*Math.cos(phi), oy:Math.sin(theta)*Math.sin(phi), oz:Math.cos(theta), r:1.2+Math.random()*1.2 });
+      }
+      let t2 = 0;
+      function drawMini() {
+        cx2.clearRect(0,0,320,320);
+        const R=100; t2+=0.015;
+        pts.forEach(p=>{
+          const ry=p.ox*Math.cos(t2*0.5)-p.oz*Math.sin(t2*0.5);
+          const rz=p.ox*Math.sin(t2*0.5)+p.oz*Math.cos(t2*0.5);
+          const rx=p.oy;
+          const noise=1+0.15*Math.sin(3*rz+t2)*Math.cos(3*rx+t2*0.7);
+          const sc=R*noise; const z=(rz+1)/2;
+          cx2.beginPath(); cx2.arc(160+rx*sc,160+ry*sc,p.r*z,0,Math.PI*2);
+          cx2.fillStyle=`hsla(${280+z*60},80%,70%,${0.5*z})`;
+          cx2.fill();
+        });
+        requestAnimationFrame(drawMini);
+      }
+      drawMini();
+    }
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Election Process Guide — ElectAI</title>
+  <link rel="stylesheet" href="css/global.css"/>
+  <style>
+    .guide-page { padding-top: var(--navbar-height); }
+    /* Timeline */
+    .timeline-section { padding: 60px 0 100px; }
+    .phase-nav { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:48px; }
+    .phase-nav-btn {
+      padding:8px 16px; border-radius:var(--radius-full); font-size:0.8rem; font-weight:600;
+      background:var(--bg-card); border:1px solid var(--border); color:var(--text-muted);
+      cursor:pointer; transition:all 0.2s;
+    }
+    .phase-nav-btn.active, .phase-nav-btn:hover {
+      background:var(--grad-primary); color:#fff; border-color:transparent;
+      box-shadow:0 4px 16px rgba(139,92,246,0.3);
+    }
+    .timeline { position:relative; max-width:800px; margin:0 auto; }
+    .timeline::before {
+      content:''; position:absolute; left:40px; top:0; bottom:0; width:2px;
+      background:linear-gradient(to bottom, var(--accent-purple), var(--accent-pink), transparent);
+    }
+    .timeline-item {
+      display:flex; gap:24px; margin-bottom:12px; cursor:pointer;
+    }
+    .timeline-marker {
+      position:relative; z-index:2; flex-shrink:0; width:80px;
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+    }
+    .timeline-dot {
+      width:40px; height:40px; border-radius:50%; border:3px solid var(--border);
+      background:var(--bg-secondary); display:flex; align-items:center; justify-content:center;
+      font-size:1.1rem; transition:all 0.3s;
+    }
+    .timeline-item.active .timeline-dot,
+    .timeline-item:hover .timeline-dot {
+      border-color:var(--accent-purple); background:rgba(139,92,246,0.15);
+      box-shadow:0 0 20px rgba(139,92,246,0.3);
+    }
+    .timeline-phase-num { font-size:0.65rem; font-weight:700; color:var(--text-muted); letter-spacing:1px; }
+    .timeline-content {
+      flex:1; background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius-lg); padding:20px 24px; transition:all 0.3s;
+      position:relative; overflow:hidden;
+    }
+    .timeline-item.active .timeline-content, .timeline-item:hover .timeline-content {
+      border-color:var(--border-accent); box-shadow:var(--shadow-glow);
+      background:var(--bg-card-hover);
+    }
+    .timeline-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+    .timeline-title { font-weight:700; font-size:1rem; }
+    .timeline-duration { font-size:0.75rem; color:var(--text-muted); background:var(--bg-input); padding:3px 10px; border-radius:var(--radius-full); }
+    .timeline-subtitle { font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px; }
+    .timeline-detail {
+      max-height:0; overflow:hidden; transition:max-height 0.4s ease;
+    }
+    .timeline-item.active .timeline-detail { max-height:400px; }
+    .timeline-detail-content { padding-top:12px; border-top:1px solid var(--border); font-size:0.875rem; color:var(--text-secondary); line-height:1.7; }
+    .timeline-detail-content ul { padding-left:18px; margin:8px 0; }
+    .timeline-detail-content li { margin-bottom:4px; }
+    .timeline-detail-content strong { color:var(--text-primary); }
+    .phase-badge { display:inline-block; padding:3px 10px; border-radius:var(--radius-full); font-size:0.72rem; font-weight:600; margin-bottom:8px; }
+    .phase-badge.current { background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.4); color:var(--accent-green); }
+    .phase-badge.upcoming { background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.3); color:var(--accent-blue); }
+
+    /* Current elections */
+    .current-elections { background:var(--bg-secondary); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:48px 0; }
+    .election-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; margin-top:24px; }
+    .election-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; }
+    .election-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+    .election-state { font-weight:700; font-size:0.95rem; }
+    .election-status-badge { font-size:0.7rem; font-weight:700; padding:3px 10px; border-radius:var(--radius-full); }
+    .election-status-badge.live { background:rgba(239,68,68,0.15); color:var(--accent-red); border:1px solid rgba(239,68,68,0.3); }
+    .election-status-badge.upcoming { background:rgba(59,130,246,0.12); color:var(--accent-blue); border:1px solid rgba(59,130,246,0.3); }
+    .election-status-badge.completed { background:rgba(34,197,94,0.12); color:var(--accent-green); border:1px solid rgba(34,197,94,0.3); }
+    .election-detail { font-size:0.82rem; color:var(--text-secondary); line-height:1.5; }
+    .election-detail p { margin-bottom:4px; }
+    .election-detail strong { color:var(--text-primary); }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo"><div class="nav-logo-icon">⚡</div><span>Elect<span class="gradient-text">AI</span></span></a>
+      <ul class="nav-links">
+        <li><a href="election-guide.html" class="nav-link active">Election Guide</a></li>
+        <li><a href="chatbot.html" class="nav-link">AI Chat</a></li>
+        <li><a href="legal-rights.html" class="nav-link">Legal Rights</a></li>
+        <li><a href="surveillance.html" class="nav-link">Surveillance</a></li>
+      </ul>
+      <div class="nav-actions"><button class="theme-toggle">🌙</button><a href="dashboard.html" class="btn btn-secondary" style="padding:8px 16px;font-size:0.85rem">Dashboard</a></div>
+    </div>
+  </nav>
+
+  <main class="page-main guide-page">
+    <div class="page-header">
+      <div class="badge">📋 Interactive Guide</div>
+      <h1>Indian <span class="gradient-text">Election Process</span></h1>
+      <p>Click any phase below to expand and learn every step of how elections work in India — from announcement to results.</p>
+    </div>
+
+    <!-- Current Elections -->
+    <section class="current-elections">
+      <div class="container">
+        <h2 style="font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:4px">🗳️ Active Elections — India 2025</h2>
+        <p style="color:var(--text-secondary);font-size:0.875rem">Live and upcoming state elections monitored by ECI</p>
+        <div class="election-cards">
+          <div class="election-card">
+            <div class="election-card-header"><span class="election-state">🔴 West Bengal</span><span class="election-status-badge live">LIVE</span></div>
+            <div class="election-detail">
+              <p><strong>Type:</strong> State Assembly — Phase 3 Polling</p>
+              <p><strong>Seats:</strong> 294 Assembly Seats</p>
+              <p><strong>Polling:</strong> April–May 2025</p>
+              <p><strong>ECI Alert:</strong> Heavy security deployed; violence reported in some areas</p>
+            </div>
+          </div>
+          <div class="election-card">
+            <div class="election-card-header"><span class="election-state">🟠 Tamil Nadu</span><span class="election-status-badge upcoming">UPCOMING</span></div>
+            <div class="election-detail">
+              <p><strong>Type:</strong> Local Body Elections</p>
+              <p><strong>Seats:</strong> Urban & Rural Local Bodies</p>
+              <p><strong>Polling:</strong> May 2025</p>
+              <p><strong>MCC:</strong> Model Code of Conduct Active</p>
+            </div>
+          </div>
+          <div class="election-card">
+            <div class="election-card-header"><span class="election-state">🟡 Bihar</span><span class="election-status-badge upcoming">UPCOMING</span></div>
+            <div class="election-detail">
+              <p><strong>Type:</strong> By-Elections</p>
+              <p><strong>Seats:</strong> Multiple Assembly Constituencies</p>
+              <p><strong>Polling:</strong> May 5, 2025</p>
+              <p><strong>Status:</strong> Nominations Filed</p>
+            </div>
+          </div>
+          <div class="election-card">
+            <div class="election-card-header"><span class="election-state">🟢 Odisha</span><span class="election-status-badge completed">COMPLETED</span></div>
+            <div class="election-detail">
+              <p><strong>Type:</strong> Municipal Corporation Elections</p>
+              <p><strong>Result:</strong> Declared March 2025</p>
+              <p><strong>Voter Turnout:</strong> 67.3%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="timeline-section">
+      <div class="container">
+        <div class="phase-nav" id="phase-nav"></div>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.js?v=3"></script>
+  <script src="js/theme.js"></script>
+  <script>
+    const phases = [
+      { icon:'📢', num:'01', title:'Election Announcement', duration:'Day 1', short:'ECI issues notification', badge:null,
+        detail:`<strong>Election Commission of India (ECI)</strong> announces the election schedule via an official notification.
+        <ul>
+          <li>President (for General Elections) or Governor (for State Elections) dissolves the House/Assembly</li>
+          <li>ECI announces polling dates, number of phases, and the election schedule</li>
+          <li>Model Code of Conduct (MCC) comes into force immediately</li>
+          <li>No new government schemes or projects can be announced after MCC kicks in</li>
+          <li>Duration from announcement to polling: Typically 4–6 weeks</li>
+        </ul>` },
+      { icon:'📋', num:'02', title:'Model Code of Conduct (MCC)', duration:'Until Results', short:'Rules for parties & candidates', badge:'current',
+        detail:`The MCC governs the conduct of political parties and candidates during elections.
+        <ul>
+          <li>No party in power can misuse government resources for election campaigning</li>
+          <li>Ministers cannot announce new schemes or inaugurate projects</li>
+          <li>Government vehicles cannot be used for campaigning</li>
+          <li>No transfers of officials without ECI permission</li>
+          <li>Strictly enforced by ECI through Flying Squads and Static Surveillance Teams</li>
+          <li><strong>Violation penalty:</strong> Complaint can be filed with ECI; action includes FIRs and disqualification</li>
+        </ul>` },
+      { icon:'📝', num:'03', title:'Filing Nominations', duration:'7–14 Days', short:'Candidates file their papers', badge:null,
+        detail:`Candidates who wish to contest must file their nomination papers with the Returning Officer.
+        <ul>
+          <li>Candidate must submit Form 2A (for General Election) or Form 2B (State)</li>
+          <li>Affidavit declaring criminal antecedents, assets & liabilities is mandatory</li>
+          <li>Security deposit: ₹25,000 for Lok Sabha, ₹10,000 for Vidhan Sabha (₹12,500 / ₹5,000 for SC/ST)</li>
+          <li>Proposers required: 1 (for party candidates), 10 (for Independents in Lok Sabha)</li>
+          <li>All nominations filed at the office of Returning Officer</li>
+        </ul>` },
+      { icon:'🔍', num:'04', title:'Scrutiny of Nominations', duration:'1 Day', short:'Verification of nomination forms', badge:null,
+        detail:`The Returning Officer scrutinizes all filed nominations to check for validity.
+        <ul>
+          <li>All nomination papers are examined for completeness and legal validity</li>
+          <li>Age verification (21 years for Lok Sabha, 25 for Rajya Sabha)</li>
+          <li>Criminal disqualification check (Section 8 of RPA 1951)</li>
+          <li>Any elector can raise objections about a nomination</li>
+          <li>Rejected nominations can be challenged at the High Court later</li>
+        </ul>` },
+      { icon:'✋', num:'05', title:'Withdrawal of Candidature', duration:'2 Days After Scrutiny', short:'Candidates can pull out', badge:null,
+        detail:`After scrutiny, candidates have a window to withdraw their nominations.
+        <ul>
+          <li>Candidates can voluntarily withdraw by submitting a written notice</li>
+          <li>Withdrawal cannot be done after the deadline — candidate remains in the contest</li>
+          <li>Final list of contesting candidates is published after the withdrawal period</li>
+          <li>Election symbols are allotted to candidates by the Returning Officer</li>
+          <li>Recognized parties retain their reserved national/state symbols</li>
+        </ul>` },
+      { icon:'📣', num:'06', title:'Election Campaign', duration:'Until 48 hrs Before Poll', short:'Parties and candidates campaign', badge:null,
+        detail:`Candidates and parties campaign to seek votes from the electorate.
+        <ul>
+          <li><strong>Campaign silence period:</strong> 48 hours before polling (no campaigning allowed)</li>
+          <li>Campaign expenditure limits: ₹95 lakh (Lok Sabha), ₹40 lakh (Vidhan Sabha)</li>
+          <li>Exit polls banned from publication during voting phases</li>
+          <li>Paid news strictly prohibited — ECI monitors media</li>
+          <li>Social media posts must be pre-certified by ECI's Media Certification and Monitoring Committee</li>
+          <li>Flying Squads monitor distribution of cash, liquor, and freebies (voter inducement)</li>
+        </ul>` },
+      { icon:'🗳️', num:'07', title:'Polling Day', duration:'1 or Multiple Days', short:'Voters cast their ballots', badge:'current',
+        detail:`The actual voting takes place at designated polling booths across constituencies.
+        <ul>
+          <li>Polling typically happens from <strong>7 AM to 6 PM</strong></li>
+          <li>Voters must bring valid ID: Voter ID (EPIC), Aadhaar, Passport, PAN, etc. (12 accepted IDs)</li>
+          <li>Electronic Voting Machines (EVMs) are used — tamper-proof and battery operated</li>
+          <li>VVPAT (Voter Verifiable Paper Audit Trail) slips voters can verify their vote</li>
+          <li><strong>NOTA</strong> (None of the Above) available as an option</li>
+          <li>Security forces deployed — CRPF, State Police, rapid response teams</li>
+          <li>Webcasting of booths — live feed to district headquarters</li>
+          <li>Voters in queue at closing time must still be allowed to vote</li>
+        </ul>` },
+      { icon:'📊', num:'08', title:'Vote Counting', duration:'Counting Day', short:'EVMs counted at counting centres', badge:null,
+        detail:`Votes are counted at designated counting centres under strict supervision.
+        <ul>
+          <li>Counting begins usually at <strong>8 AM on counting day</strong></li>
+          <li>Postal ballots counted first, then EVM results</li>
+          <li>Each counting round covers votes from a specific booth</li>
+          <li>Party/candidate agents allowed in counting halls</li>
+          <li>VVPAT audit: 5 randomly selected EVMs per constituency are verified with paper slips</li>
+          <li>Returning Officer declares round-by-round results publicly</li>
+          <li>Election result can be contested via an Election Petition in the High Court</li>
+        </ul>` },
+      { icon:'🏆', num:'09', title:'Declaration of Results', duration:'Final Day', short:'Winner announced', badge:null,
+        detail:`The Returning Officer formally declares the winning candidate.
+        <ul>
+          <li>Candidate with the <strong>highest votes (First Past The Post)</strong> wins — no need for majority</li>
+          <li>Winning candidate receives a Certificate of Election</li>
+          <li>Results published in the Official Gazette</li>
+          <li>Losing candidate's security deposit forfeited if they get less than 1/6 of valid votes</li>
+          <li>New government formation follows within days/weeks of final results</li>
+          <li>In case of tie: Returning Officer draws lots to decide winner</li>
+          <li>Election petitions must be filed within 45 days of result declaration</li>
+        </ul>` }
+    ];
+
+    let activePhase = -1;
+
+    function buildTimeline() {
+      const nav      = document.getElementById('phase-nav');
+      const timeline = document.getElementById('timeline');
+      nav.innerHTML = phases.map((p, i) => `<button class="phase-nav-btn" onclick="scrollToPhase(${i})">${p.icon} ${p.title}</button>`).join('');
+      timeline.innerHTML = phases.map((p, i) => `
+        <div class="timeline-item" id="phase-${i}" onclick="togglePhase(${i})">
+          <div class="timeline-marker">
+            <div class="timeline-dot">${p.icon}</div>
+            <span class="timeline-phase-num">PHASE ${p.num}</span>
+          </div>
+          <div class="timeline-content">
+            ${p.badge ? `<div class="phase-badge ${p.badge}">${p.badge === 'current' ? '🟢 Currently Active' : '🔵 Upcoming'}</div>` : ''}
+            <div class="timeline-header">
+              <h3 class="timeline-title">${p.title}</h3>
+              <span class="timeline-duration">⏱ ${p.duration}</span>
+            </div>
+            <p class="timeline-subtitle">${p.short}</p>
+            <div class="timeline-detail" id="detail-${i}">
+              <div class="timeline-detail-content">${p.detail}</div>
+            </div>
+          </div>
+        </div>`).join('');
+    }
+
+    function togglePhase(i) {
+      const items = document.querySelectorAll('.timeline-item');
+      const navBtns = document.querySelectorAll('.phase-nav-btn');
+      if (activePhase === i) {
+        items[i].classList.remove('active');
+        navBtns[i].classList.remove('active');
+        activePhase = -1;
+      } else {
+        if (activePhase >= 0) { items[activePhase].classList.remove('active'); navBtns[activePhase].classList.remove('active'); }
+        items[i].classList.add('active');
+        navBtns[i].classList.add('active');
+        activePhase = i;
+      }
+    }
+
+    function scrollToPhase(i) {
+      const el = document.getElementById(`phase-${i}`);
+      if (el) el.scrollIntoView({ behavior:'smooth', block:'center' });
+      togglePhase(i);
+    }
+
+    document.addEventListener('DOMContentLoaded', buildTimeline);
+  </script>
+</body>
+</html>
+

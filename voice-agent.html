@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Voice Agent — ElectAI</title>
+  <meta name="description" content="Talk to ElectAI voice agent — speak your election questions and listen to expert answers."/>
+  <link rel="stylesheet" href="css/global.css"/>
+  <link rel="stylesheet" href="css/voice.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">⚡</div>
+        <span>Elect<span class="gradient-text">AI</span></span>
+      </a>
+      <div class="nav-actions">
+        <a href="chatbot.html" class="btn btn-secondary" style="padding:8px 16px;font-size:0.85rem">💬 Text Chat</a>
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-main voice-page">
+    <!-- Idle state -->
+    <div class="voice-screen" id="screen-idle">
+      <div class="voice-brand">
+        <div class="voice-brand-icon">✦</div>
+        <h1>ElectAI</h1>
+        <p class="voice-brand-sub">Voice Assistant</p>
+      </div>
+
+      <!-- Animated orb -->
+      <div class="voice-orb-wrap" id="orb-idle">
+        <canvas id="voice-orb-canvas" width="300" height="300"></canvas>
+        <div class="orb-ring orb-ring-1"></div>
+        <div class="orb-ring orb-ring-2"></div>
+        <div class="orb-ring orb-ring-3"></div>
+      </div>
+
+      <div class="voice-prompt">
+        <p class="voice-prompt-main" id="voice-prompt-text">
+          <span data-typewriter="Ask me about elections...|How does voting work in India?|What elections are live right now?|Know your rights as a voter" data-tw-speed="55"></span>
+        </p>
+        <p class="voice-prompt-hint" id="voice-hint-text">Tap the mic to start talking</p>
+      </div>
+
+      <!-- Bottom controls -->
+      <div class="voice-controls" id="voice-controls">
+        <button class="voice-ctrl-btn" id="reset-btn" onclick="resetConversation()" title="Reset">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3"/>
+          </svg>
+        </button>
+
+        <button class="mic-btn" id="mic-btn" onclick="toggleListening()">
+          <div class="mic-icon" id="mic-icon">🎙️</div>
+          <div class="mic-pulse-ring"></div>
+          <div class="mic-pulse-ring mic-pulse-ring-2"></div>
+        </button>
+
+        <button class="voice-ctrl-btn" id="close-btn" onclick="window.location.href='chatbot.html'" title="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Waveform bars (visible while speaking/listening) -->
+      <div class="waveform-container hidden" id="waveform">
+        <div class="waveform">
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        </div>
+      </div>
+
+      <!-- Transcript -->
+      <div class="transcript-area" id="transcript-area"></div>
+
+      <!-- History -->
+      <div class="voice-history" id="voice-history">
+        <p class="voice-history-title">Recent voice conversations</p>
+        <div id="voice-history-list"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/config.js?v=3"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/typewriter.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/voice-agent.js?v=3"></script>
+</body>
+</html>
+

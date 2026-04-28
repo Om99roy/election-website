@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Face Verification — ElectAI</title>
+  <link rel="stylesheet" href="css/global.css"/>
+  <link rel="stylesheet" href="css/auth.css"/>
+  <style>
+    .fv-page { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:calc(var(--navbar-height)+40px) 24px 40px; position:relative; overflow:hidden; }
+    .fv-card { background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius-xl); padding:48px 40px; max-width:600px; width:100%; text-align:center; animation:fadeInUp 0.5s ease; position:relative; z-index:2; }
+    .fv-card h1 { font-family:'Outfit',sans-serif; font-size:2rem; font-weight:800; margin-bottom:8px; }
+    .fv-card p.sub { color:var(--text-secondary); font-size:0.9rem; margin-bottom:32px; }
+    .camera-container { position:relative; width:340px; height:340px; margin:0 auto 32px; border-radius:50%; overflow:hidden; border:3px solid var(--border); box-shadow:0 0 0 6px rgba(139,92,246,0.1),var(--shadow-lg); }
+    .camera-container video { width:100%; height:100%; object-fit:cover; }
+    .camera-overlay { position:absolute; inset:0; border-radius:50%; border:3px solid transparent; background:transparent; }
+    .camera-overlay.scanning { border-color:var(--accent-purple); animation:glow-pulse 1.5s infinite; }
+    .camera-overlay.success  { border-color:var(--accent-green); box-shadow:0 0 30px rgba(34,197,94,0.4); }
+    .camera-overlay.error    { border-color:var(--accent-red); }
+    .scan-line { position:absolute; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--accent-purple),transparent); animation:scan-anim 2s linear infinite; }
+    @keyframes scan-anim { 0%{top:0} 100%{top:100%} }
+    .fv-steps { display:flex; justify-content:center; gap:20px; margin-bottom:32px; }
+    .fv-step { display:flex; align-items:center; gap:8px; font-size:0.8rem; color:var(--text-muted); }
+    .fv-step.done { color:var(--accent-green); }
+    .fv-step.active { color:var(--accent-purple); font-weight:600; }
+    .fv-step-dot { width:24px; height:24px; border-radius:50%; border:2px solid currentColor; display:flex; align-items:center; justify-content:center; font-size:0.75rem; flex-shrink:0; }
+    .fv-status { margin-bottom:24px; font-size:0.9rem; font-weight:500; min-height:1.5em; }
+    .fv-status.scanning { color:var(--accent-purple); }
+    .fv-status.success  { color:var(--accent-green); }
+    .fv-status.error    { color:var(--accent-red); }
+    .fv-progress { height:4px; background:var(--bg-input); border-radius:2px; margin-bottom:28px; overflow:hidden; }
+    .fv-progress-bar { height:100%; background:var(--grad-primary); border-radius:2px; width:0; transition:width 0.4s ease; }
+    .face-capture-img { width:100%; height:100%; object-fit:cover; display:none; }
+    .skip-link { margin-top:16px; font-size:0.8rem; color:var(--text-muted); cursor:pointer; }
+    .skip-link:hover { color:var(--text-secondary); }
+  </style>
+</head>
+<body>
+  <div class="auth-orb auth-orb-1"></div>
+  <div class="auth-orb auth-orb-2"></div>
+
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">⚡</div>
+        <span>Elect<span class="gradient-text">AI</span></span>
+      </a>
+      <div class="nav-actions">
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="fv-page page-main">
+    <div class="fv-card">
+      <div class="badge" style="margin-bottom:20px"><span>👤</span> Secure Face Verification</div>
+      <h1>Verify Your <span class="gradient-text">Identity</span></h1>
+      <p class="sub">We'll use your camera to detect and store your face securely. Make sure you're in a well-lit environment.</p>
+
+      <div class="fv-steps">
+        <div class="fv-step done" id="step-1"><div class="fv-step-dot">✓</div><span>Account</span></div>
+        <div style="align-self:center;color:var(--border);font-size:1.2rem">→</div>
+        <div class="fv-step active" id="step-2"><div class="fv-step-dot">2</div><span>Face Scan</span></div>
+        <div style="align-self:center;color:var(--border);font-size:1.2rem">→</div>
+        <div class="fv-step" id="step-3"><div class="fv-step-dot">3</div><span>Dashboard</span></div>
+      </div>
+
+      <div class="camera-container">
+        <video id="fv-video" autoplay playsinline muted></video>
+        <canvas id="fv-canvas" style="display:none"></canvas>
+        <img id="face-capture-img" class="face-capture-img" alt="Captured face"/>
+        <div class="camera-overlay" id="cam-overlay">
+          <div class="scan-line" id="scan-line"></div>
+        </div>
+      </div>
+
+      <div class="fv-progress"><div class="fv-progress-bar" id="fv-progress-bar"></div></div>
+      <div class="fv-status scanning" id="fv-status">Initializing camera...</div>
+
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary" id="capture-btn" onclick="captureAndVerify()" disabled>
+          📸 Capture Face
+        </button>
+        <button class="btn btn-secondary" id="retry-btn" onclick="retryCamera()" style="display:none">
+          🔄 Retry
+        </button>
+        <button class="btn btn-primary" id="continue-btn" onclick="goToDashboard()" style="display:none">
+          Continue to Dashboard →
+        </button>
+      </div>
+
+      <p class="skip-link" onclick="skipVerification()">Skip for now (not recommended)</p>
+    </div>
+  </main>
+
+  <script src="js/config.js?v=3"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  <script>
+    const video   = document.getElementById('fv-video');
+    const canvas  = document.getElementById('fv-canvas');
+    const overlay = document.getElementById('cam-overlay');
+    const status  = document.getElementById('fv-status');
+    const progress= document.getElementById('fv-progress-bar');
+    const capBtn  = document.getElementById('capture-btn');
+    const retryBtn= document.getElementById('retry-btn');
+    const contBtn = document.getElementById('continue-btn');
+    const scanLine= document.getElementById('scan-line');
+    const captureImg = document.getElementById('face-capture-img');
+
+    let stream = null;
+    let modelsLoaded = false;
+    let detectionInterval = null;
+
+    function setStatus(msg, type='scanning') {
+      status.textContent = msg;
+      status.className = `fv-status ${type}`;
+    }
+    function setProgress(pct) {
+      progress.style.width = pct + '%';
+    }
+
+    async function loadModels() {
+      setStatus('Loading face detection models...', 'scanning');
+      setProgress(10);
+      try {
+        const MODEL_URL = 'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/weights';
+        await Promise.all([
+          faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+          faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+          faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL)
+        ]);
+        modelsLoaded = true;
+        setProgress(30);
+        setStatus('Models loaded. Starting camera...', 'scanning');
+        startCamera();
+      } catch(err) {
+        console.error('Model load error:', err);
+        setStatus('Could not load models. Using basic capture mode.', 'scanning');
+        setProgress(30);
+        startCamera(true);
+      }
+    }
+
+    async function startCamera(basic = false) {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { width:640, height:640, facingMode:'user' } });
+        video.srcObject = stream;
+        video.onloadedmetadata = () => {
+          setProgress(50);
+          setStatus(basic ? '📷 Camera ready — click Capture' : '🔍 Detecting face...', 'scanning');
+          capBtn.disabled = false;
+          if (!basic && modelsLoaded) startFaceDetection();
+        };
+      } catch(err) {
+        setStatus('❌ Camera access denied. Please allow camera and retry.', 'error');
+        overlay.className = 'camera-overlay error';
+        scanLine.style.display = 'none';
+        retryBtn.style.display = 'block';
+        capBtn.disabled = true;
+      }
+    }
+
+    function startFaceDetection() {
+      detectionInterval = setInterval(async () => {
+        if (!video.videoWidth) return;
+        try {
+          const det = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
+          if (det) {
+            setStatus('✅ Face detected — click Capture!', 'success');
+            overlay.className = 'camera-overlay success';
+            capBtn.style.background = 'var(--grad-primary)';
+          } else {
+            setStatus('🔍 Align your face in the circle...', 'scanning');
+            overlay.className = 'camera-overlay scanning';
+          }
+        } catch(e) { /* ignore */ }
+      }, 800);
+    }
+
+    async function captureAndVerify() {
+      if (detectionInterval) clearInterval(detectionInterval);
+      setStatus('📸 Capturing...', 'scanning');
+      setProgress(70);
+
+      canvas.width  = video.videoWidth  || 640;
+      canvas.height = video.videoHeight || 640;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+
+      let descriptor = null;
+      if (modelsLoaded) {
+        try {
+          const det = await faceapi.detectSingleFace(canvas, new faceapi.TinyFaceDetectorOptions())
+            .withFaceLandmarks().withFaceDescriptor();
+          if (det) descriptor = Array.from(det.descriptor);
+        } catch(e) { console.log('Descriptor error:', e); }
+      }
+
+      const imageData = canvas.toDataURL('image/jpeg', 0.8);
+      const user = getCurrentUser();
+      if (user) {
+        updateUser({ faceVerified: true, faceCapture: imageData, faceDescriptor: descriptor, verifiedAt: new Date().toISOString() });
+      }
+
+      // Show captured image
+      captureImg.src = imageData;
+      captureImg.style.display = 'block';
+      video.style.display = 'none';
+      scanLine.style.display = 'none';
+
+      setProgress(100);
+      overlay.className = 'camera-overlay success';
+      setStatus('✅ Face verified successfully!', 'success');
+      capBtn.style.display = 'none';
+      retryBtn.style.display = 'block';
+      contBtn.style.display = 'block';
+
+      // Stop stream
+      if (stream) stream.getTracks().forEach(t => t.stop());
+    }
+
+    function retryCamera() {
+      captureImg.style.display = 'none';
+      video.style.display = 'block';
+      scanLine.style.display = 'block';
+      retryBtn.style.display = 'none';
+      contBtn.style.display = 'none';
+      capBtn.style.display = 'block';
+      setProgress(30);
+      overlay.className = 'camera-overlay scanning';
+      startCamera(!modelsLoaded);
+    }
+
+    function goToDashboard() { window.location.href = 'dashboard.html'; }
+
+    function skipVerification() {
+      if (confirm('Skip face verification? You can do it later from your dashboard.')) {
+        window.location.href = 'dashboard.html';
+      }
+    }
+
+    // Start on page load
+    document.addEventListener('DOMContentLoaded', loadModels);
+  </script>
+</body>
+</html>
+

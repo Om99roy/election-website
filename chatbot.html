@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ElectAI Chat — Your Election Assistant</title>
+  <meta name="description" content="Chat with ElectAI — an AI-powered assistant for all your Indian election questions."/>
+  <link rel="stylesheet" href="css/global.css"/>
+  <link rel="stylesheet" href="css/chatbot.css"/>
+</head>
+<body>
+  <div class="chat-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="chat-sidebar" id="chat-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="nav-logo" style="font-size:1.1rem">
+          <div class="nav-logo-icon" style="width:32px;height:32px;font-size:16px">⚡</div>
+          Elect<span class="gradient-text">AI</span>
+        </a>
+        <button class="btn-ghost sidebar-close-btn" id="sidebar-close" onclick="closeSidebar()">✕</button>
+      </div>
+
+      <button class="new-chat-btn" onclick="newChat()">
+        <span>✦</span> New Chat
+      </button>
+
+      <div class="sidebar-section">
+        <p class="sidebar-section-title">Today</p>
+        <div id="chat-history-list" class="chat-history-list"></div>
+      </div>
+
+      <div class="sidebar-topics">
+        <p class="sidebar-section-title">Quick Topics</p>
+        <button class="topic-chip" onclick="askTopic('What is the election process in India?')">🗳️ Election Process</button>
+        <button class="topic-chip" onclick="askTopic('What are current elections happening in India right now?')">📊 Current Elections</button>
+        <button class="topic-chip" onclick="askTopic('What are my voting rights under Indian law?')">⚖️ Voting Rights</button>
+        <button class="topic-chip" onclick="askTopic('What is booth capturing and what are the IPC sections for it?')">🚨 Booth Capturing</button>
+        <button class="topic-chip" onclick="askTopic('Explain the Model Code of Conduct in India')">📋 Model Code of Conduct</button>
+        <button class="topic-chip" onclick="askTopic('How does Electronic Voting Machine (EVM) work?')">🖥️ How EVM Works</button>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="theme-toggle" style="width:auto;padding:8px 14px;border-radius:var(--radius-md);gap:8px;display:flex">
+          🌙 <span data-theme-label>Dark</span>
+        </button>
+        <a href="dashboard.html" class="btn-ghost" style="font-size:0.8rem;padding:8px">🏠 Dashboard</a>
+      </div>
+    </aside>
+
+    <!-- MAIN CHAT AREA -->
+    <div class="chat-main">
+
+      <!-- Chat Header -->
+      <header class="chat-header">
+        <button class="btn-ghost chat-menu-btn" onclick="openSidebar()">☰</button>
+        <div class="chat-header-info">
+          <div class="chat-bot-avatar">
+            <div class="bot-sparkle-icon" id="header-sparkle">✦</div>
+          </div>
+          <div>
+            <h2 class="chat-title">ElectAI</h2>
+            <p class="chat-subtitle" id="chat-subtitle-text">Indian Elections Expert</p>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <button class="btn-ghost icon-btn" title="Voice Mode" onclick="window.location.href='voice-agent.html'">🎙️</button>
+          <button class="btn-ghost icon-btn" title="Clear chat" onclick="clearChat()">🗑️</button>
+          <button class="theme-toggle">🌙</button>
+        </div>
+      </header>
+
+      <!-- Messages Area -->
+      <div class="chat-messages" id="chat-messages">
+        <!-- Welcome screen shown when no messages -->
+        <div class="chat-welcome" id="chat-welcome">
+          <div class="welcome-orb-container">
+            <canvas id="welcome-orb" width="200" height="200"></canvas>
+          </div>
+          <h2 class="welcome-title">
+            <span data-typewriter="Ask me about elections|I know every phase of voting|Get live polling updates|Know your legal rights" data-tw-speed="60">Ask me about elections</span>
+          </h2>
+          <p class="welcome-sub">ElectAI is trained on Indian election law, ECI data, and real-time political updates.</p>
+          <div class="welcome-chips">
+            <button class="welcome-chip" onclick="askTopic('What elections are currently happening in India?')">🗳️ Current Elections</button>
+            <button class="welcome-chip" onclick="askTopic('Explain the Indian election process step by step')">📋 Election Steps</button>
+            <button class="welcome-chip" onclick="askTopic('I was proxied at a polling booth. What are my rights?')">⚖️ I was proxied</button>
+            <button class="welcome-chip" onclick="askTopic('What is happening in West Bengal elections 2025?')">📍 West Bengal</button>
+            <button class="welcome-chip" onclick="askTopic('How does vote counting work in India?')">🔢 Vote Counting</button>
+            <button class="welcome-chip" onclick="askTopic('What is NOTA and how to use it?')">✋ About NOTA</button>
+          </div>
+        </div>
+
+        <!-- Messages rendered here by JS -->
+        <div id="messages-container"></div>
+
+        <!-- Typing indicator -->
+        <div class="typing-indicator hidden" id="typing-indicator">
+          <div class="bot-msg-avatar">✦</div>
+          <div class="typing-bubble">
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="chat-input-area">
+        <div class="chat-input-wrap">
+          <button class="input-action-btn" title="Voice input" onclick="startVoiceInput()" id="voice-input-btn">🎙️</button>
+          <textarea
+            id="chat-input"
+            class="chat-textarea"
+            placeholder="Send a message..."
+            rows="1"
+            onkeydown="handleInputKey(event)"
+            oninput="autoResize(this)"
+          ></textarea>
+          <button class="input-action-btn send-btn" id="send-btn" onclick="sendMessage()" title="Send">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
+        <p class="input-disclaimer">ElectAI can make mistakes. Verify critical information with official ECI sources.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js?v=3"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/typewriter.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/electai.js?v=3"></script>
+</body>
+</html>
+

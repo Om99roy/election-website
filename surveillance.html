@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CCTV Surveillance AI — ElectAI</title>
+  <meta name="description" content="AI-powered CCTV booth monitoring with real-time anomaly detection and police alert system."/>
+  <link rel="stylesheet" href="css/global.css"/>
+  <link rel="stylesheet" href="css/surveillance.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo"><div class="nav-logo-icon">⚡</div><span>Elect<span class="gradient-text">AI</span></span></a>
+      <ul class="nav-links">
+        <li><a href="election-guide.html" class="nav-link">Election Guide</a></li>
+        <li><a href="chatbot.html" class="nav-link">AI Chat</a></li>
+        <li><a href="legal-rights.html" class="nav-link">Legal Rights</a></li>
+        <li><a href="surveillance.html" class="nav-link active">Surveillance</a></li>
+      </ul>
+      <div class="nav-actions"><button class="theme-toggle">🌙</button><a href="dashboard.html" class="btn btn-secondary" style="padding:8px 16px;font-size:0.85rem">Dashboard</a></div>
+    </div>
+  </nav>
+
+  <main class="page-main surv-page">
+    <div class="surv-header">
+      <div class="container">
+        <div class="badge">📹 Edge AI Model</div>
+        <h1>CCTV <span class="gradient-text">Surveillance AI</span></h1>
+        <p>Real-time booth monitoring with anomaly detection. Instantly alerts police with GPS location when threats are detected.</p>
+        <div class="surv-status-row" id="surv-status-row">
+          <div class="surv-status-item" id="cam-status"><span class="status-dot" id="cam-dot" style="background:var(--accent-red)"></span> Camera: Off</div>
+          <div class="surv-status-item" id="ai-status"><span class="status-dot" id="ai-dot" style="background:var(--text-muted)"></span> AI Model: Loading</div>
+          <div class="surv-status-item" id="loc-status"><span class="status-dot" id="loc-dot" style="background:var(--text-muted)"></span> Location: Unknown</div>
+          <div class="surv-alert-count">⚠️ Alerts Today: <strong id="alert-count">0</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container surv-container">
+      <div class="surv-grid">
+
+        <!-- LEFT: Camera feed -->
+        <div class="surv-left">
+          <div class="camera-panel glass-card">
+            <div class="camera-panel-header">
+              <div class="cam-label">
+                <span class="rec-dot" id="rec-dot"></span>
+                <span id="cam-label-text">📹 BOOTH CAM — OFFLINE</span>
+              </div>
+              <div class="cam-controls">
+                <button class="cam-btn" id="start-cam-btn" onclick="startCamera()">▶ Start</button>
+                <button class="cam-btn cam-btn-red hidden" id="stop-cam-btn" onclick="stopCamera()">⏹ Stop</button>
+                <button class="cam-btn" id="demo-btn" onclick="runDemoAlert()">⚡ Demo Alert</button>
+              </div>
+            </div>
+            <div class="camera-feed-wrap">
+              <video id="surv-video" autoplay playsinline muted></video>
+              <canvas id="surv-canvas"></canvas>
+              <canvas id="detect-canvas" style="display:none"></canvas>
+              <div class="camera-offline-msg" id="cam-offline">
+                <span class="camera-offline-icon">📹</span>
+                <p>Click <strong>"Start"</strong> to activate the booth camera feed</p>
+                <p style="font-size:0.8rem;opacity:0.7">Camera access required for live AI analysis</p>
+              </div>
+              <!-- Alert overlay -->
+              <div class="cam-alert-overlay hidden" id="cam-alert-overlay">
+                <div class="cam-alert-badge">⚠️ ANOMALY DETECTED</div>
+              </div>
+            </div>
+            <div class="detection-info" id="detection-info">
+              <div class="detection-stats">
+                <span>👥 People: <strong id="det-people">0</strong></span>
+                <span>🏃 Motion: <strong id="det-motion">None</strong></span>
+                <span>⚠️ Threat: <strong id="det-threat">None</strong></span>
+                <span>🎯 Confidence: <strong id="det-conf">—</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Threat level panel -->
+          <div class="threat-panel glass-card">
+            <h3>🎯 Threat Assessment</h3>
+            <div class="threat-meter-wrap">
+              <div class="threat-meter">
+                <div class="threat-fill" id="threat-fill" style="width:0%"></div>
+              </div>
+              <span id="threat-level-text" style="font-size:0.8rem;color:var(--text-muted)">SAFE</span>
+            </div>
+            <div class="threat-categories">
+              <div class="threat-cat" id="tc-crowd"><span>👥</span> Crowd Surge</div>
+              <div class="threat-cat" id="tc-violence"><span>⚡</span> Violence/Aggression</div>
+              <div class="threat-cat" id="tc-weapon"><span>💣</span> Weapon/Explosive</div>
+              <div class="threat-cat" id="tc-unauthorized"><span>🚷</span> Unauthorized Entry</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Alerts + Map -->
+        <div class="surv-right">
+
+          <!-- Alert panel -->
+          <div class="alert-panel glass-card">
+            <div class="alert-panel-header">
+              <h3>🚨 Live Alert Feed</h3>
+              <button class="cam-btn" onclick="clearAlerts()" style="font-size:0.72rem">Clear All</button>
+            </div>
+            <div class="alert-feed" id="alert-feed">
+              <div class="no-alerts-msg">No alerts detected. Surveillance is active.</div>
+            </div>
+            <!-- Action buttons for latest alert -->
+            <div class="alert-actions hidden" id="alert-actions">
+              <button class="btn btn-primary" onclick="notifyPolice()" style="padding:10px 16px;font-size:0.82rem">👮 Alert Police</button>
+              <button class="btn btn-secondary" onclick="notifyECI()" style="padding:10px 16px;font-size:0.82rem">📋 Notify ECI</button>
+              <button class="btn btn-secondary" onclick="shareLocation()" style="padding:10px 16px;font-size:0.82rem">📍 Share Location</button>
+            </div>
+          </div>
+
+          <!-- Map panel -->
+          <div class="map-panel glass-card">
+            <div class="map-panel-header">
+              <h3>📍 Incident Location Tracker</h3>
+              <div class="map-controls">
+                <span id="location-text" style="font-size:0.78rem;color:var(--text-muted)">Acquiring location...</span>
+                <button class="cam-btn" onclick="recenterMap()">⟳</button>
+              </div>
+            </div>
+            <div id="surv-map"></div>
+            <div class="map-incidents" id="map-incidents">
+              <p style="font-size:0.8rem;color:var(--text-muted)">Incident markers will appear here after alerts are triggered</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Police notification modal -->
+    <div class="police-modal hidden" id="police-modal">
+      <div class="police-modal-inner glass-card">
+        <div class="police-modal-icon">👮</div>
+        <h2>Police Alert Sent!</h2>
+        <p>Emergency notification dispatched to:</p>
+        <div class="police-alert-details" id="police-alert-details"></div>
+        <div style="display:flex;gap:12px;justify-content:center;margin-top:20px">
+          <button class="btn btn-primary" onclick="closeModal()">✓ Confirmed</button>
+          <a href="tel:100" class="btn btn-secondary">📞 Call 100</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/config.js?v=3"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/auth.js"></script>
+  <!-- TensorFlow.js for object detection -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.15.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+  <!-- Leaflet for maps -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/surveillance.js"></script>
+</body>
+</html>
+
