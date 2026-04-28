@@ -1,7 +1,5 @@
 # ElectAI - Indian Election Education & Surveillance Platform
 
-![ElectAI Demo](https://electai-728760552786.us-central1.run.app/favicon.ico)
-
 ## 📌 Problem Statement
 India has the world's largest democracy, yet a significant portion of the electorate remains unaware of the intricate election processes, their legal voting rights, and the correct procedures to report electoral malpractices (such as proxy voting, booth capturing, and violence). Furthermore, monitoring thousands of remote polling booths for safety and compliance is a massive logistical challenge that often relies on delayed manual reporting. Citizens lack an accessible, interactive, and multilingual platform to get real-time, accurate election information and emergency assistance.
 
